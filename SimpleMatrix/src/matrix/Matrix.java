@@ -22,15 +22,27 @@ public abstract class Matrix {
 		assignMatrix( new Element[columns][rows] );
 	}
 	
-	protected Matrix(double[][] matrix) {
+	protected Matrix(double[][] matrix, boolean arrayOfColumns) {
 		if(matrix.length == 0)
 			throw new IllegalArgumentException("Matrix should have at least one row");
 		
-		Element[][] m = new Element[ matrix.length ][ matrix[0].length ];
+		Element[][] m = null;
 		
-		for(int i = 0; i < matrix.length; ++i) {
-			for(int j = 0; j < matrix[0].length; ++j) {
-				m[i][j] = new Element(i, j, matrix[i][j]);
+		if(arrayOfColumns) {
+			m = new Element[ matrix.length ][ matrix[0].length ];
+			
+			for(int i = 0; i < matrix.length; ++i) {
+				for(int j = 0; j < matrix[0].length; ++j) {
+					m[i][j] = new Element(i, j, matrix[i][j]);
+				}
+			}
+		} else {
+			m = new Element[ matrix[0].length ][ matrix.length ];
+			
+			for(int i = 0; i < matrix.length; ++i) {
+				for(int j = 0; j < matrix[0].length; ++j) {
+					m[j][i] = new Element(j, i, matrix[i][j]);
+				}
 			}
 		}
 		assignMatrix(m); 

@@ -12,19 +12,32 @@ public class BinaryMatrix extends Matrix{
 		super(columns, rows);
 	}
 	
-	public BinaryMatrix(double[][] matrix) {
-		super(matrix);
+	public BinaryMatrix(double[][] matrix, boolean arrayOfColumns) {
+		super(matrix, arrayOfColumns);
 	}
 	
-	public BinaryMatrix(boolean[][] matrix) {
+	public BinaryMatrix(boolean[][] matrix, boolean arrayOfColumns) {
 		super(matrix.length, matrix[0].length);
 		
-		Element[][] m = new Element[ matrix.length ][ matrix[0].length ];
+		Element[][] m = null;
 		
-		for(int i = 0; i < matrix.length; ++i) {
-			for(int j = 0; j < matrix[0].length; ++j) {
-				double v = matrix[i][j] ? 1 : 0;
-				m[i][j] = new Element( i, j, v );
+		if(arrayOfColumns) {
+			m = new Element[ matrix.length ][ matrix[0].length ];
+			
+			for(int i = 0; i < matrix.length; ++i) {
+				for(int j = 0; j < matrix[0].length; ++j) {
+					double v = matrix[i][j] ? 1 : 0;
+					m[i][j] = new Element( i, j, v );
+				}
+			}
+		} else {
+			m = new Element[ matrix[0].length ][ matrix.length ];
+			
+			for(int i = 0; i < matrix.length; ++i) {
+				for(int j = 0; j < matrix[0].length; ++j) {
+					double v = matrix[i][j] ? 1 : 0;
+					m[j][i] = new Element( j, i, v );
+				}
 			}
 		}
 		assignMatrix(m);

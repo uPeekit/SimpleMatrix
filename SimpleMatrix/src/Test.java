@@ -20,8 +20,11 @@ public class Test {
 		System.out.println( "Set [1,1] to 3.14159265: " + matrix.setElementValue(1, 1, 3.14159265) );
 		System.out.println( "Set [1,1] to 0: " + matrix.setElementValue(1, 1, 0) + "\n");
 		
-		CommonMatrix matrix1 = new CommonMatrix(new double[][] {{0, 2}, {1, 5}, {22, 44}});
+		CommonMatrix matrix1 = new CommonMatrix(new double[][] {{0, 2}, {1, 5}, {22, 44}}, true);
 		System.out.println( matrix1 );
+		
+		CommonMatrix matrix2 = new CommonMatrix(new double[][] {{0, 2}, {1, 5}, {22, 44}}, false);
+		System.out.println( matrix2 );
 		
 		matrix1.generateRandom(11, 37, true);
 		System.out.println( matrix1 );
@@ -31,7 +34,7 @@ public class Test {
 		System.out.println( "[2,1] up left neighbour: " + el.getNeighbour(Direction.UP_LEFT) );
 		System.out.println( "[2,1] right neighbour: " + el.getNeighbour(Direction.RIGHT) + "\n" );
 		
-		BinaryMatrix bm = new BinaryMatrix( new boolean[][] {{true, false}, {false, true}} );
+		BinaryMatrix bm = new BinaryMatrix( new boolean[][] {{true, false}, {true, true}, {false, false}}, true );
 		System.out.println(bm);
 		
 	}

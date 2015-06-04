@@ -4,8 +4,8 @@ import util.MatrixUtil;
 
 public class CommonMatrix extends Matrix {
 
-	public CommonMatrix(double[][] matrix) {
-		super(matrix);
+	public CommonMatrix(double[][] matrix, boolean arrayOfColumns) {
+		super(matrix, arrayOfColumns);
 	}
 
 	public CommonMatrix(int columns, int rows) {
