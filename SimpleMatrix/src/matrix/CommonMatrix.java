@@ -2,7 +2,7 @@ package matrix;
 
 import util.MatrixUtil;
 
-public class CommonMatrix extends Matrix {
+public class CommonMatrix extends Matrix implements Cloneable {
 
 	public CommonMatrix(double[][] matrix, boolean arrayOfColumns) {
 		super(matrix, arrayOfColumns);

@@ -2,7 +2,7 @@ package matrix;
 
 import util.MatrixUtil;
 
-public class BinaryMatrix extends Matrix{
+public class BinaryMatrix extends Matrix /*implements Cloneable*/ {
 	
 	public BinaryMatrix(int size) {
 		super(size);
@@ -40,12 +40,12 @@ public class BinaryMatrix extends Matrix{
 				}
 			}
 		}
-		assignMatrix(m);
+		assignMatrix( m, false );
 	}
 	
 	public int countContinents() {
 		int c = 0;
-		Element[][] mc = MatrixUtil.copyMatrix(matrix, this);
+		Element[][] mc = MatrixUtil.copyMatrix(matrix);
 		for(int i = 0; i < columns; ++i) {
 			for(int j = 0; j < rows; ++j) {
 				if( mc[i][j].getValue() == 1) {
@@ -58,7 +58,7 @@ public class BinaryMatrix extends Matrix{
 	}
 	
 	private Element[][] floodAround(Element[][] matrix, int i, int j) {
-		matrix[i][j].setValue(0);
+		matrix[i][j] = new Element(i, j, 0);
 		
 		if( j > 0 && isOne( matrix[i][j-1] ) ) {
 			floodAround(matrix, i, j-1);
@@ -87,6 +87,16 @@ public class BinaryMatrix extends Matrix{
 	protected boolean checkElement(Element e) {
 		return (e.getValue() == 0 || e.getValue() == 1) ? true : false;
 	}
+	
+//	@Override // SHIT IT DOESNT WORK FUCK BITCH ASSHOLE
+//	public Object clone() throws CloneNotSupportedException {
+//		BinaryMatrix m = (BinaryMatrix)super.clone();
+//		for(int i = 0; i < columns; ++i)
+//			for(int j = 0; j < rows; ++j)
+//				m.setElement( i, j, new Element(i, j, matrix[i][j].getValue()) );
+//        
+//        return m;
+//    }
 	
 	
 }

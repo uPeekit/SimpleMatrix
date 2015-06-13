@@ -43,7 +43,7 @@ public class MatrixUtil {
 		return matr;
 	}
 	
-	public static Element[][] copyMatrix(Element[][] eMatr, Matrix matrix) {
+	public static Element[][] copyMatrix(Element[][] eMatr) {
 		if(eMatr.length == 0)
 			throw new IllegalArgumentException("Matrix should have at least one row");
 		
@@ -73,4 +73,5 @@ public class MatrixUtil {
 		}
 		return matrix;
 	}
+	
 }

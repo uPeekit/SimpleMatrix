@@ -1,10 +1,13 @@
 package matrix;
 
+import java.lang.reflect.InvocationTargetException;
 
-public abstract class Matrix {
+import exception.FailedOperationException;
+
+
+public abstract class Matrix implements Cloneable {
 	
 	protected Element[][] matrix;
-	
 	protected int columns;
 	protected int rows;
 	
@@ -12,14 +15,14 @@ public abstract class Matrix {
 		if(size <= 0)
 			throw new IllegalArgumentException("Size cannot be equal to or less than 0");
 		
-		assignMatrix( new Element[size][size] );
+		assignMatrix( new Element[size][size], true );
 	}
 	
 	protected Matrix(int columns, int rows) {
 		if(rows <= 0 || columns <= 0)
 			throw new IllegalArgumentException("Row or column number cannot be equal to or less than 0");
 		
-		assignMatrix( new Element[columns][rows] );
+		assignMatrix( new Element[columns][rows], true );
 	}
 	
 	protected Matrix(double[][] matrix, boolean arrayOfColumns) {
@@ -45,13 +48,18 @@ public abstract class Matrix {
 				}
 			}
 		}
-		assignMatrix(m); 
+		assignMatrix( m, false ); 
 	}
-	
-	protected void assignMatrix(Element[][] matrix) {
+		
+	protected void assignMatrix(Element[][] matrix, boolean zeroOut) {
 		this.matrix = matrix;
 		this.columns = matrix.length;
 		this.rows = matrix[0].length;
+		
+		if(zeroOut)
+			for(int i = 0; i < columns; ++i)
+				for(int j = 0; j < rows; ++j)
+					this.matrix[i][j] = new Element(i, j, 0);
 	}
 		
 	public boolean setElementValue(int column, int row, double value) {
@@ -65,6 +73,10 @@ public abstract class Matrix {
 		} else {
 			return false;
 		}
+	}
+	
+	protected void setElement(int column, int row, Element element) {
+		matrix[column][row] = element;
 	}
 	
 	public int getElementsCount() {
@@ -107,6 +119,100 @@ public abstract class Matrix {
 		return row;
 	}
 	
+	protected Matrix getEmptyConcreteMatrix(int size) {
+		Matrix matrix = null;
+		try {
+			matrix = this.getClass().getConstructor(int.class).newInstance(size);
+		} catch (NoSuchMethodException e) {
+			System.out.println(e);
+		} catch (SecurityException e) {
+			System.out.println(e);
+		} catch (InstantiationException e) {
+			System.out.println(e);
+		} catch (IllegalAccessException e) {
+			System.out.println(e);
+		} catch (IllegalArgumentException e) {
+			System.out.println(e);
+		} catch (InvocationTargetException e) {
+			System.out.println(e);
+		}
+		return matrix;
+	}
+	
+	protected Matrix getEmptyConcreteMatrix(int columns, int rows) {
+		Matrix matrix = null;
+		try {
+			matrix = this.getClass().getConstructor(int.class, int.class).newInstance(columns, rows);
+		} catch (NoSuchMethodException e) {
+			System.out.println(e);
+		} catch (SecurityException e) {
+			System.out.println(e);
+		} catch (InstantiationException e) {
+			System.out.println(e);
+		} catch (IllegalAccessException e) {
+			System.out.println(e);
+		} catch (IllegalArgumentException e) {
+			System.out.println(e);
+		} catch (InvocationTargetException e) {
+			System.out.println(e);
+		}
+		return matrix;
+	}
+
+	public Element[] getMainDiagonal() {
+		int n = (columns < rows) ? columns : rows;
+		
+		Element[] diagonal = new Element[n];
+		for(int i = 0; i < n; ++i)
+			diagonal[i] = matrix[i][i];
+			
+		return diagonal;
+	}
+		
+	public Matrix getMainDiagonalMatrix() {
+		int n = (columns < rows) ? columns : rows;
+		Matrix matrix = getEmptyConcreteMatrix(n);
+		
+		for(int i = 0; i < n; ++i)
+			for(int j = 0; j < n; ++j)
+				if(i == j)
+					matrix.setElementValue( i, j, this.matrix[i][j].getValue() );
+		
+		return matrix;
+	}
+	
+	public Element[] getMinorDiagonal() {
+		int n = (columns < rows) ? columns : rows;
+
+		Element[] diagonal = new Element[n];
+		for(int i = 0; i < n; ++i)
+			diagonal[i] = matrix[n-1-i][i];
+			
+		return diagonal;
+	}
+	
+	public Matrix getMinorDiagonalMatrix() {
+		int n = (columns < rows) ? columns : rows;
+		Matrix matrix = getEmptyConcreteMatrix(n);
+		
+		for(int i = n-1; i >= 0; --i)
+			for(int j = 0; j < n; ++j)
+				if( (i + j) == (n - 1) )
+					matrix.setElementValue( i, j, this.matrix[i][j].getValue() );
+		
+		return matrix;
+	}
+	
+//	public Matrix getLowerTriangularMatrix() {
+//		
+//	}
+//	
+//	public Matrix getUpperTriangularMatrix() {
+//		
+//	}
+	
+	// TODO: submatrices by deleting row/column
+	
 	protected abstract boolean checkElement(Element e);
 	
 	@Override
@@ -123,7 +229,92 @@ public abstract class Matrix {
 		}
 		return m;
 	}
-
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        Matrix m = getEmptyConcreteMatrix(columns, rows);
+        for(int i = 0; i < columns; ++i)
+			for(int j = 0; j < rows; ++j)
+				m.matrix[i][j] = (Element)matrix[i][j].clone();
+        return m;
+    }
+	
+	@Override
+	public boolean equals(Object obj) {
+		if( !(obj instanceof Matrix) )
+			return false;
+		
+		Matrix m = (Matrix)obj;
+		if(m == this)
+			return true;
+		
+		if(m.getColumnsCount() != columns || m.getRowsCount() != rows)
+			return false;
+		
+		for(int i = 0; i < columns; ++i)
+			for(int j = 0; j < rows; ++j)
+				if( m.getElement(i, j).getValue() != matrix[i][j].getValue() )
+					return false;
+		return true;
+	}
+	
+	public Matrix multiplyBy(double number) throws FailedOperationException {
+		Matrix result = null;
+		try {
+			result = this.getClass().cast( this.clone() );
+		} catch (CloneNotSupportedException e) {}
+		
+		for(int i = 0; i < columns; ++i)
+			for(int j = 0; j < rows; ++j)
+				if( !result.setElementValue(i, j, matrix[i][j].getValue() * number) )
+					throw new FailedOperationException("One or more multiplied values cannot be assigned to this matrix");
+		
+		return result;
+	}
+	
+	public CommonMatrix multiplyBy(Matrix matrix) throws FailedOperationException {
+		if( this.columns != matrix.rows )
+			throw new FailedOperationException("Number of columns in the first matrix must be equal "
+											 + "to number of rows in the second matrix");
+		CommonMatrix result = new CommonMatrix(matrix.columns, this.rows);
+		
+		int multiplyQ = this.columns;
+		double newVal;
+		for(int i = 0; i < matrix.columns; ++i) {
+			for(int j = 0; j < this.rows; ++j) {
+				newVal = 0;
+				for(int n = 0; n < multiplyQ; ++n)
+					newVal += this.matrix[n][j].getValue() * matrix.getElement(i, n).getValue();
+						
+				result.setElementValue(i, j, newVal);
+			}
+		}	
+		return result;
+	}
+	
+	public CommonMatrix sum(Matrix matrix) throws FailedOperationException {
+		if( this.columns != matrix.columns || this.rows != matrix.rows )
+			throw new FailedOperationException("Number of columns and rows in matrices must be equal");
+		
+		CommonMatrix result = new CommonMatrix(columns, rows);
+		
+		for(int i = 0; i < columns; ++i)
+			for(int j = 0; j < rows; ++j)
+				result.setElementValue(i, j, this.matrix[i][j].getValue() + matrix.getElement(i, j).getValue());
+		
+		return result;
+	}
+	
+	public Matrix transpose() {
+		Matrix result = getEmptyConcreteMatrix(rows, columns);
+		
+		for(int i = 0; i < columns; ++i)
+			for(int j = 0; j < rows; ++j)
+				result.setElementValue(j, i, matrix[i][j].getValue());
+		
+		return result;
+	}
+	
 	
 	public enum Direction {
 		UP, DOWN, LEFT, RIGHT, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT
@@ -156,14 +347,7 @@ public abstract class Matrix {
 		public double getValue() {
 			return value;
 		}
-		
-		public void setValue(double value) {
-			if( !Matrix.this.checkElement(this) )
-				throw new IllegalArgumentException("Bad value");
-			
-			this.value = value;
-		}
-		
+				
 		public Element getNeighbour(Direction direction) {
 			Element el = null;
 			
@@ -186,6 +370,29 @@ public abstract class Matrix {
 						 break;
 			}
 			return el;
+		}
+		
+		public Element getDiagonalOpposite() {
+			return (row >= columns || column >= rows) ? null : Matrix.this.matrix[row][column];
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if( !(obj instanceof Element) )
+				return false;
+			
+			Element e = (Element)obj;
+			if(e == this)
+				return true;
+			
+			if(e.getColumn() != column)
+				return false;
+			if(e.getRow() != row)
+				return false;
+			if(e.getValue() != value)
+				return false;
+			
+			return true;
 		}
 		
 		@Override
