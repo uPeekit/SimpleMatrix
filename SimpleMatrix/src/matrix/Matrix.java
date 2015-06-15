@@ -1,10 +1,14 @@
 package matrix;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+
 import util.MatrixUtil;
 import exception.FailedOperationException;
 
 
-public abstract class Matrix implements Cloneable {
+public abstract class Matrix implements Cloneable, Iterable<Matrix.Element> {
 	
 	protected Element[][] matrix;
 	protected int columns;
@@ -215,6 +219,15 @@ public abstract class Matrix implements Cloneable {
 				if( m.getElement(i, j).getValue() != matrix[i][j].getValue() )
 					return false;
 		return true;
+	}
+	
+	@Override
+	public Iterator<Element> iterator() {
+		ArrayList<Element> ar = new ArrayList<>( this.getElementsCount() );
+		for(int i = 0; i < this.columns; ++i)
+			ar.addAll( Arrays.asList( matrix[i] ) );
+
+		return ar.iterator();
 	}
 	
 	public Matrix multiplyByRestricted(double number) throws FailedOperationException {

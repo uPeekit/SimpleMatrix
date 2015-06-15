@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Iterator;
 
 import exception.FailedOperationException;
 import matrix.*;
@@ -87,6 +88,11 @@ public class Test {
 			System.out.println(e);
 		}
 		System.out.println("bm transposed:\n" + bm.transpose());
+		
+		System.out.println("Using iterator for matrix2:");
+		Iterator<Matrix.Element> iter = matrix2.iterator();
+		while(iter.hasNext())
+			System.out.println(iter.next());
 	}
 
 }
