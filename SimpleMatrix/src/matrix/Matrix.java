@@ -1,7 +1,6 @@
 package matrix;
 
-import java.lang.reflect.InvocationTargetException;
-
+import util.MatrixUtil;
 import exception.FailedOperationException;
 
 
@@ -118,46 +117,6 @@ public abstract class Matrix implements Cloneable {
 		}
 		return row;
 	}
-	
-	protected Matrix getEmptyConcreteMatrix(int size) {
-		Matrix matrix = null;
-		try {
-			matrix = this.getClass().getConstructor(int.class).newInstance(size);
-		} catch (NoSuchMethodException e) {
-			System.out.println(e);
-		} catch (SecurityException e) {
-			System.out.println(e);
-		} catch (InstantiationException e) {
-			System.out.println(e);
-		} catch (IllegalAccessException e) {
-			System.out.println(e);
-		} catch (IllegalArgumentException e) {
-			System.out.println(e);
-		} catch (InvocationTargetException e) {
-			System.out.println(e);
-		}
-		return matrix;
-	}
-	
-	protected Matrix getEmptyConcreteMatrix(int columns, int rows) {
-		Matrix matrix = null;
-		try {
-			matrix = this.getClass().getConstructor(int.class, int.class).newInstance(columns, rows);
-		} catch (NoSuchMethodException e) {
-			System.out.println(e);
-		} catch (SecurityException e) {
-			System.out.println(e);
-		} catch (InstantiationException e) {
-			System.out.println(e);
-		} catch (IllegalAccessException e) {
-			System.out.println(e);
-		} catch (IllegalArgumentException e) {
-			System.out.println(e);
-		} catch (InvocationTargetException e) {
-			System.out.println(e);
-		}
-		return matrix;
-	}
 
 	public Element[] getMainDiagonal() {
 		int n = (columns < rows) ? columns : rows;
@@ -171,7 +130,7 @@ public abstract class Matrix implements Cloneable {
 		
 	public Matrix getMainDiagonalMatrix() {
 		int n = (columns < rows) ? columns : rows;
-		Matrix matrix = getEmptyConcreteMatrix(n);
+		Matrix matrix = MatrixUtil.getEmptyConcreteMatrix(this, n, n);
 		
 		for(int i = 0; i < n; ++i)
 			for(int j = 0; j < n; ++j)
@@ -193,7 +152,7 @@ public abstract class Matrix implements Cloneable {
 	
 	public Matrix getMinorDiagonalMatrix() {
 		int n = (columns < rows) ? columns : rows;
-		Matrix matrix = getEmptyConcreteMatrix(n);
+		Matrix matrix = MatrixUtil.getEmptyConcreteMatrix(this, n, n);
 		
 		for(int i = n-1; i >= 0; --i)
 			for(int j = 0; j < n; ++j)
@@ -232,7 +191,7 @@ public abstract class Matrix implements Cloneable {
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-        Matrix m = getEmptyConcreteMatrix(columns, rows);
+        Matrix m = MatrixUtil.getEmptyConcreteMatrix(this, columns, rows);
         for(int i = 0; i < columns; ++i)
 			for(int j = 0; j < rows; ++j)
 				m.matrix[i][j] = (Element)matrix[i][j].clone();
@@ -258,7 +217,7 @@ public abstract class Matrix implements Cloneable {
 		return true;
 	}
 	
-	public Matrix multiplyBy(double number) throws FailedOperationException {
+	public Matrix multiplyByRestricted(double number) throws FailedOperationException {
 		Matrix result = null;
 		try {
 			result = this.getClass().cast( this.clone() );
@@ -268,6 +227,16 @@ public abstract class Matrix implements Cloneable {
 			for(int j = 0; j < rows; ++j)
 				if( !result.setElementValue(i, j, matrix[i][j].getValue() * number) )
 					throw new FailedOperationException("One or more multiplied values cannot be assigned to this matrix");
+		
+		return result;
+	}
+	
+	public CommonMatrix multiplyBy(double number) {
+		CommonMatrix result = new CommonMatrix(columns, rows);
+		
+		for(int i = 0; i < columns; ++i)
+			for(int j = 0; j < rows; ++j)
+				result.setElementValue(i, j, matrix[i][j].getValue() * number);
 		
 		return result;
 	}
@@ -306,7 +275,7 @@ public abstract class Matrix implements Cloneable {
 	}
 	
 	public Matrix transpose() {
-		Matrix result = getEmptyConcreteMatrix(rows, columns);
+		Matrix result = MatrixUtil.getEmptyConcreteMatrix(this, rows, columns);
 		
 		for(int i = 0; i < columns; ++i)
 			for(int j = 0; j < rows; ++j)

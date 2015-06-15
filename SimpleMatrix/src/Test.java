@@ -57,14 +57,15 @@ public class Test {
 		System.out.println();
 		
 		try {
-			System.out.println("Multiplying binary matrix by 2:");
-			bm.multiplyBy(2);
+			System.out.println("Multiplying binary matrix by 2 with binary restrictions:");
+			bm.multiplyByRestricted(2);
 		} catch (FailedOperationException e) {
 			System.out.println(e);
 		}
-		System.out.println();
+		System.out.println("Without:");
+		System.out.println(bm.multiplyBy(2));
 		try {
-			System.out.println( "matrix2 multiplyed by 2.2:\n" + matrix2.multiplyBy(2.2) );
+			System.out.println( "matrix2 multiplyed by 2.2:\n" + matrix2.multiplyByRestricted(2.2) );
 		} catch (FailedOperationException e) {
 			System.out.println(e);
 		}
@@ -72,8 +73,16 @@ public class Test {
 			Matrix multiplied = new CommonMatrix(new double[][] {{1, 0}, {3, 4}, {2, -1}}, true).multiplyBy(
 									new CommonMatrix(new double[][] {{2, 3, 0}, {0, -2, 1}, {-1, 1, 2}, {1, 2, 3}}, true)
 								);
-			System.out.println("Multiplication works: " + 
+			System.out.println("Matrices multiplication works: " + 
 				multiplied.equals( new CommonMatrix(new double[][] {{11, 12}, {-4, -9}, {6, 2}, {13, 5}}, true) ) );
+		} catch (FailedOperationException e) {
+			System.out.println(e);
+		}
+		try {
+			System.out.println("Summing works: " + new CommonMatrix(new double[][] {{3, 7}, {8, 5}}, true).sum(
+									new CommonMatrix(new double[][] {{8, 4}, {3, 6}}, true)).equals(
+										new CommonMatrix(new double[][] {{11, 11}, {11, 11}}, true)
+								));
 		} catch (FailedOperationException e) {
 			System.out.println(e);
 		}

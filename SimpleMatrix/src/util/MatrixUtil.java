@@ -1,5 +1,7 @@
 package util;
 
+import java.lang.reflect.InvocationTargetException;
+
 import matrix.Matrix;
 import matrix.Matrix.Element;
 
@@ -70,6 +72,26 @@ public class MatrixUtil {
 				
 				matrix[i][j] = r;
 			}
+		}
+		return matrix;
+	}
+	
+	public static Matrix getEmptyConcreteMatrix(Matrix m, int columns, int rows) {
+		Matrix matrix = null;
+		try {
+			matrix = m.getClass().getConstructor(int.class, int.class).newInstance(columns, rows);
+		} catch (NoSuchMethodException e) {
+			System.out.println(e);
+		} catch (SecurityException e) {
+			System.out.println(e);
+		} catch (InstantiationException e) {
+			System.out.println(e);
+		} catch (IllegalAccessException e) {
+			System.out.println(e);
+		} catch (IllegalArgumentException e) {
+			System.out.println(e);
+		} catch (InvocationTargetException e) {
+			System.out.println(e);
 		}
 		return matrix;
 	}

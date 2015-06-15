@@ -2,7 +2,7 @@ package matrix;
 
 import util.MatrixUtil;
 
-public class BinaryMatrix extends Matrix /*implements Cloneable*/ {
+public class BinaryMatrix extends Matrix {
 	
 	public BinaryMatrix(int size) {
 		super(size);
@@ -87,16 +87,5 @@ public class BinaryMatrix extends Matrix /*implements Cloneable*/ {
 	protected boolean checkElement(Element e) {
 		return (e.getValue() == 0 || e.getValue() == 1) ? true : false;
 	}
-	
-//	@Override // SHIT IT DOESNT WORK FUCK BITCH ASSHOLE
-//	public Object clone() throws CloneNotSupportedException {
-//		BinaryMatrix m = (BinaryMatrix)super.clone();
-//		for(int i = 0; i < columns; ++i)
-//			for(int j = 0; j < rows; ++j)
-//				m.setElement( i, j, new Element(i, j, matrix[i][j].getValue()) );
-//        
-//        return m;
-//    }
-	
 	
 }
