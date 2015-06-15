@@ -92,8 +92,6 @@ Is a matrix, which can hold only 1 and 0 values.
 Same as similar constructor of Matrix, but takes boolean array as a source.
 ##### void generateRandom()
 Generates random values and assignes it to the matrix.
-##### boolean isOne(Element e)
-Returns true if element value is 1.
 ##### int countContinents()
 Counts continents which are represented by elements with value 1, standing next to each other
 on the top, right, bottom and left, not diagonally.
