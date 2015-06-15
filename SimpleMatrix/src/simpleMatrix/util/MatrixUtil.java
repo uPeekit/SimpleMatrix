@@ -16,7 +16,7 @@ public class MatrixUtil {
 		return arr;
 	} 
 	
-	public static double[][] elementToDoubleMatrix(Element[][] eMatr) {
+	public static double[][] elementToDouble2DArray(Element[][] eMatr) {
 		if(eMatr.length == 0)
 			throw new IllegalArgumentException("Matrix should have at least one row");
 		
@@ -30,7 +30,7 @@ public class MatrixUtil {
 		return matr;
 	}
 	
-	public static Element[][] doubleToElementMatrix(double[][] iMatr, Matrix matrix) {
+	public static Element[][] doubleToElement2DArray(double[][] iMatr, Matrix matrix) {
 		if(iMatr.length == 0)
 			throw new IllegalArgumentException("Matrix should have at least one row");
 		
@@ -45,7 +45,7 @@ public class MatrixUtil {
 		return matr;
 	}
 	
-	public static Element[][] copyMatrix(Element[][] eMatr) {
+	public static Element[][] copyElement2DArray(Element[][] eMatr) {
 		if(eMatr.length == 0)
 			throw new IllegalArgumentException("Matrix should have at least one row");
 		

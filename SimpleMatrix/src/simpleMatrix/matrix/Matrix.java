@@ -64,6 +64,10 @@ public abstract class Matrix implements Cloneable, Iterable<Matrix.Element> {
 				for(int j = 0; j < rows; ++j)
 					this.matrix[i][j] = new Element(i, j, 0);
 	}
+	
+	protected void setElement(int column, int row, Element element) {
+		matrix[column][row] = element;
+	}
 		
 	public boolean setElementValue(int column, int row, double value) {
 		if(row < 0 || column < 0)
@@ -76,10 +80,6 @@ public abstract class Matrix implements Cloneable, Iterable<Matrix.Element> {
 		} else {
 			return false;
 		}
-	}
-	
-	protected void setElement(int column, int row, Element element) {
-		matrix[column][row] = element;
 	}
 	
 	public int getElementsCount() {

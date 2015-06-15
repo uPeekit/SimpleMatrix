@@ -17,7 +17,7 @@ public class CommonMatrix extends Matrix implements Cloneable {
 	}
 
 	public void generateRandom(int min, int max, boolean fractional) {
-		matrix = MatrixUtil.doubleToElementMatrix( MatrixUtil.generateRandom(columns, rows, min, max, fractional), this );
+		matrix = MatrixUtil.doubleToElement2DArray( MatrixUtil.generateRandom(columns, rows, min, max, fractional), this );
 	}
 
 	@Override

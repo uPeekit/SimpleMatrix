@@ -45,7 +45,7 @@ public class BinaryMatrix extends Matrix {
 	
 	public int countContinents() {
 		int c = 0;
-		Element[][] mc = MatrixUtil.copyMatrix(matrix);
+		Element[][] mc = MatrixUtil.copyElement2DArray(matrix);
 		for(int i = 0; i < columns; ++i) {
 			for(int j = 0; j < rows; ++j) {
 				if( mc[i][j].getValue() == 1) {
@@ -80,7 +80,7 @@ public class BinaryMatrix extends Matrix {
 	}
 
 	public void generateRandom() {
-		matrix = MatrixUtil.doubleToElementMatrix( MatrixUtil.generateRandom(columns, rows, 0, 1, false), this );
+		matrix = MatrixUtil.doubleToElement2DArray( MatrixUtil.generateRandom(columns, rows, 0, 1, false), this );
 	}
 
 	@Override
