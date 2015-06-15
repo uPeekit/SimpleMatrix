@@ -1,6 +1,6 @@
-package matrix;
+package simpleMatrix.matrix;
 
-import util.MatrixUtil;
+import simpleMatrix.util.MatrixUtil;
 
 public class CommonMatrix extends Matrix implements Cloneable {
 

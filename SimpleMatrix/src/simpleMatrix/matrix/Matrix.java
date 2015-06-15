@@ -1,11 +1,11 @@
-package matrix;
+package simpleMatrix.matrix;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import util.MatrixUtil;
-import exception.FailedOperationException;
+import simpleMatrix.exception.FailedOperationException;
+import simpleMatrix.util.MatrixUtil;
 
 
 public abstract class Matrix implements Cloneable, Iterable<Matrix.Element> {

@@ -1,9 +1,9 @@
-package util;
+package simpleMatrix.util;
 
 import java.lang.reflect.InvocationTargetException;
 
-import matrix.Matrix;
-import matrix.Matrix.Element;
+import simpleMatrix.matrix.Matrix;
+import simpleMatrix.matrix.Matrix.Element;
 
 public class MatrixUtil {
 	

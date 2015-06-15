@@ -1,4 +1,4 @@
-package exception;
+package simpleMatrix.exception;
 
 public class FailedOperationException extends Exception {
 

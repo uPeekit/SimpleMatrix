@@ -1,9 +1,10 @@
+package simpleMatrix;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import exception.FailedOperationException;
-import matrix.*;
-import matrix.Matrix.Direction;
+import simpleMatrix.exception.FailedOperationException;
+import simpleMatrix.matrix.*;
+import simpleMatrix.matrix.Matrix.Direction;
 
 
 public class Test {
