@@ -1,4 +1,4 @@
-package simpleMatrix.exception;
+package org.peekit.simplematrix.exception;
 
 public class FailedOperationException extends Exception {
 

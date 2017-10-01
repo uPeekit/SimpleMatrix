@@ -1,9 +1,9 @@
-package simpleMatrix.util;
+package org.peekit.simplematrix.util;
 
 import java.lang.reflect.InvocationTargetException;
 
-import simpleMatrix.matrix.Matrix;
-import simpleMatrix.matrix.Matrix.Element;
+import org.peekit.simplematrix.matrix.Matrix;
+import org.peekit.simplematrix.matrix.Matrix.Element;
 
 public class MatrixUtil {
 	

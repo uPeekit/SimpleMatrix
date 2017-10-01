@@ -1,10 +1,10 @@
-package simpleMatrix;
+package org.peekit.simplematrix;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import simpleMatrix.exception.FailedOperationException;
-import simpleMatrix.matrix.*;
-import simpleMatrix.matrix.Matrix.Direction;
+import org.peekit.simplematrix.exception.FailedOperationException;
+import org.peekit.simplematrix.matrix.*;
+import org.peekit.simplematrix.matrix.Matrix.Direction;
 
 
 public class Test {

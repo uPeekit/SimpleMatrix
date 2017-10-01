@@ -1,6 +1,6 @@
-package simpleMatrix.matrix;
+package org.peekit.simplematrix.matrix;
 
-import simpleMatrix.util.MatrixUtil;
+import org.peekit.simplematrix.util.MatrixUtil;
 
 public class BinaryMatrix extends Matrix {
 	
